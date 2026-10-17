@@ -132,6 +132,7 @@ test:
 	$(TMHS) Interpolate && $(EVAL) > Interpolate.out && diff Interpolate.ref Interpolate.out
 	$(TMHS) ExtraComma && $(EVAL) > ExtraComma.out && diff ExtraComma.ref ExtraComma.out
 	$(TMHS) -ddump-desugar DumpIdent | grep '^`' > DumpIdent-dump.out && diff DumpIdent-dump.ref DumpIdent-dump.out && $(EVAL) > DumpIdent.out && diff DumpIdent.ref DumpIdent.out
+	$(TMHS) --comb-names CombNames && $(EVAL) > CombNames.out && diff CombNames.ref CombNames.out && test $$(wc -l < out.comb.names) -eq $$(sed -n 2p out.comb) && grep -c ' CombNames\.\(fac\|main\)$$' out.comb.names | grep -qx 2
 	$(TMHS) DerivingBuiltin
 
 .PHONY: testpreprocessorpaths
@@ -189,4 +190,4 @@ nfib:
 	$(TMHS) Nfib && $(EVAL)
 
 clean:
-	rm -f *.out *.tmp *.js *.exe *.so a.out *_stub.h .mhscache
+	rm -f *.out *.tmp *.js *.exe *.so a.out *_stub.h .mhscache *.names
